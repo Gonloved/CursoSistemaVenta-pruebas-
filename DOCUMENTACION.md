@@ -13,7 +13,7 @@ El sistema sigue una **arquitectura en capas** organizada en cuatro proyectos pr
 
 ```mermaid
 classDiagram
-    direction LR
+    direction TB
 
     class Rol {
         +int IdRol
@@ -287,20 +287,24 @@ classDiagram
 ## Diagrama de despliegue
 
 ```mermaid
-flowchart LR
-    subgraph Usuario["Equipo del usuario"]
-        SO["Sistema operativo Windows"]
-        APP["Sistema de Ventas instalado"]
-        SO --> APP
+flowchart TD
+    subgraph PC_Cliente["💻 Equipo del Usuario (PC Cliente)"]
+        direction TB
+        SO["Sistema Operativo\nWindows 10 / 11"]
+        NET["Runtime\n.NET Framework 4.7.2"]
+        SV["Sistema de Ventas\ninstalado"]
+        APP["Aplicación de Escritorio\nCapaPresentacion (WinForms)\nCapaNegocio\nCapaDatos\nCapaEntidad"]
+        SO --> NET --> SV --> APP
     end
 
-    subgraph Servidor["Servidor de base de datos"]
-        SQL["Microsoft SQL Server"]
-        BD[("Base de datos")]
-        SQL --> BD
+    subgraph PC_Servidor["🖥️ Servidor / PC con SQL Server"]
+        direction TB
+        SQLSRV["Microsoft SQL Server Express 2019"]
+        DB[("Base de Datos\nDBSISTEMA_VENTA")]
+        SQLSRV --> DB
     end
 
-    APP --> SQL
+    APP -- "ADO.NET\nSqlConnection\n(Red local / mismo equipo)" --> SQLSRV
 ```
 
 # 6. Tecnologías Utilizadas
